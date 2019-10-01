@@ -5,6 +5,8 @@ from model.models import create_model
 from util.visualizer import Visualizer
 
 opt = TrainOptions().parse()
+import pydevd_pycharm
+pydevd_pycharm.settrace('140.113.214.76', port=12345, stdoutToServer=True, stderrToServer=True)
 
 dataset = dataloader(opt)
 dataset_size = len(dataset) * opt.batchSize
