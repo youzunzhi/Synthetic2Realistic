@@ -3,7 +3,7 @@ import os
 import ntpath
 import time
 from . import util
-from . import html
+# from . import html
 
 class Visualizer():
     def __init__(self, opt):
@@ -71,25 +71,25 @@ class Visualizer():
                                        win=self.display_id + idx)
                     idx += 1
 
-        if self.use_html: # save images to a html file
-            for label, image_numpy in visuals.items():
-                img_path = os.path.join(self.img_dir, 'epoch%.3d_%s.png' % (epoch, label))
-                util.save_image(image_numpy, img_path)
-            # update website
-            webpage = html.HTML(self.web_dir, 'Experiment name = %s' % self.name, reflesh=1)
-            for n in range(epoch, 0, -1):
-                webpage.add_header('epoch [%d]' % n)
-                ims = []
-                txts = []
-                links = []
-
-                for label, image_numpy in visuals.items():
-                    img_path = 'epoch%.3d_%s.png' % (n, label)
-                    ims.append(img_path)
-                    txts.append(label)
-                    links.append(img_path)
-                webpage.add_images(ims, txts, links, width=self.win_size)
-            webpage.save()
+        # if self.use_html: # save images to a html file
+        #     for label, image_numpy in visuals.items():
+        #         img_path = os.path.join(self.img_dir, 'epoch%.3d_%s.png' % (epoch, label))
+        #         util.save_image(image_numpy, img_path)
+        #     # update website
+        #     webpage = html.HTML(self.web_dir, 'Experiment name = %s' % self.name, reflesh=1)
+        #     for n in range(epoch, 0, -1):
+        #         webpage.add_header('epoch [%d]' % n)
+        #         ims = []
+        #         txts = []
+        #         links = []
+        #
+        #         for label, image_numpy in visuals.items():
+        #             img_path = 'epoch%.3d_%s.png' % (n, label)
+        #             ims.append(img_path)
+        #             txts.append(label)
+        #             links.append(img_path)
+        #         webpage.add_images(ims, txts, links, width=self.win_size)
+        #     webpage.save()
 
     # errors: dictionary of error labels and values
     def plot_current_errors(self, epoch, counter_ratio, opt, errors):

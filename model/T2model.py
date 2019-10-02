@@ -68,12 +68,12 @@ class T2NetModel(BaseModel):
             self.lab_source = input['lab_source']
             self.lab_target = input['lab_target']
 
-        if len(self.gpu_ids) > 0:
-            self.img_source = self.img_source.cuda(self.gpu_ids[0], async=True)
-            self.img_target = self.img_target.cuda(self.gpu_ids[0], async=True)
-            if self.isTrain:
-                self.lab_source = self.lab_source.cuda(self.gpu_ids[0], async=True)
-                self.lab_target = self.lab_target.cuda(self.gpu_ids[0], async=True)
+        # if len(self.gpu_ids) > 0:
+            # self.img_source = self.img_source.cuda(self.gpu_ids[0], async=True)
+            # self.img_target = self.img_target.cuda(self.gpu_ids[0], async=True)
+            # if self.isTrain:
+            #     self.lab_source = self.lab_source.cuda(self.gpu_ids[0], async=True)
+            #     self.lab_target = self.lab_target.cuda(self.gpu_ids[0], async=True)
 
     def forward(self):
         self.img_s = Variable(self.img_source)
