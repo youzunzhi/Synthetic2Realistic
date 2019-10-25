@@ -53,7 +53,6 @@ def get_scheduler(optimizer, opt):
 
 
 def init_weights(net, init_type='normal', gain=0.02):
-    print('init weights by', init_type)
     def init_func(m):
         classname = m.__class__.__name__
         if hasattr(m, 'weight') and (classname.find('Conv') != -1 or classname.find('Linear') != -1):
@@ -91,9 +90,9 @@ def init_net(net, init_type='normal', gpu_ids=[]):
 
     if len(gpu_ids) > 0:
         assert(torch.cuda.is_available())
-        net = torch.nn.DataParallel(net, gpu_ids)
+        # net = torch.nn.DataParallel(net, gpu_ids) # no parallel
         net.cuda()
-    init_weights(net, init_type)
+    # init_weights(net, init_type) ----no init (default kaiming, right?)
     return net
 
 
