@@ -86,7 +86,7 @@ class BaseOptions():
         # display parameter define
         self.parser.add_argument('--display_winsize', type=int, default=256,
                                  help='display window size')
-        self.parser.add_argument('--display_id', type=int, default=1,
+        self.parser.add_argument('--display_id', type=int, default=0,
                                  help='display id of the web')
         self.parser.add_argument('--display_port', type=int, default=8097,
                                  help='visidom port of the web display')
