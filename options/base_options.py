@@ -42,7 +42,7 @@ class BaseOptions():
                                  help='if specified, rotate the images for data augmentation')
         self.parser.add_argument('--crop', action='store_true',
                                  help='if specified, crop the images for data augmentation')
-        self.parser.add_argument('--batchSize', type=int, default=6,
+        self.parser.add_argument('--batchSize', type=int, default=64,
                                  help='input batch size')
         self.parser.add_argument('--nThreads', type=int, default=0,
                                  help='# threads for loading data')
