@@ -43,7 +43,7 @@ class TrainOptions(BaseOptions):
                                  help='frequency of saving the latest results')
         self.parser.add_argument('--save_epoch_freq', type=int, default=1,
                                  help='frequency of saving checkpoints at the end of epochs')
-        self.parser.add_argument('--no_html', action='store_true',
+        self.parser.add_argument('--no_html', action='store_true', default=True,
                                  help='do not save intermediate training results')
         # others
         self.parser.add_argument('--separate', action='store_true',

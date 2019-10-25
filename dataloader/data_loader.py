@@ -1,5 +1,6 @@
 import random
 from PIL import Image
+import torch
 import torchvision.transforms as transforms
 import torch.utils.data as data
 from .image_folder import make_dataset
@@ -10,16 +11,17 @@ class CreateDataset(data.Dataset):
     def initialize(self, opt):
         self.opt = opt
 
-        self.img_source_paths, self.img_source_size = make_dataset(opt.img_source_file)
-        self.img_target_paths, self.img_target_size = make_dataset(opt.img_target_file)
+        self.img_source_paths, self.img_source_size = make_dataset(opt.img_source_file, True)
+        self.img_target_paths, self.img_target_size = make_dataset(opt.img_target_file, True)
 
         if self.opt.isTrain:
-            self.lab_source_paths, self.lab_source_size = make_dataset(opt.lab_source_file)
+            self.lab_source_paths, self.lab_source_size = make_dataset(opt.lab_source_file, False)
             # for visual results, not for training
-            self.lab_target_paths, self.lab_target_size = make_dataset(opt.lab_target_file)
+            self.lab_target_paths, self.lab_target_size = make_dataset(opt.lab_target_file, False)
 
         self.transform_augment = get_transform(opt, True)
-        self.transform_no_augment = get_transform(opt, False)
+        # self.transform_no_augment = get_transform(opt, False)
+        self.transform_no_augment = get_depth_transform()
 
     def __getitem__(self, item):
         index = random.randint(0, self.img_target_size - 1)
@@ -113,3 +115,33 @@ def get_transform(opt, augment):
     ]
 
     return transforms.Compose(transforms_list)
+
+def get_depth_transform():
+    transforms_list =[transforms.ToTensor(), ClampNormalizeTransform(8000., 0.5, 0.5)]
+    return transforms.Compose(transforms_list)
+
+
+class ClampNormalizeTransform(object):
+    """
+     Since torchvision.Normalize doesn't support 1-channel image, I implement it here
+    """
+
+    def __init__(self, max_depth, mean, std):
+        """
+        :param max_depth:  depth over max_depth will be clamped. eg. 80, 50, ...
+        :param mean:
+        :param std:
+        """
+        self.max_depth = max_depth
+        self.mean = mean
+        self.std = std
+
+    def __call__(self, depth):
+        """
+        :param depth: (0, 65536)
+        :return: (-1., 1.)
+        """
+        depth = depth.type(torch.float)
+        clamped = torch.clamp(depth, 0., self.max_depth)
+        normalized = (clamped / self.max_depth - self.mean) / self.std
+        return normalized

@@ -11,7 +11,7 @@ class BaseOptions():
 
     def initialize(self):
         # basic define
-        self.parser.add_argument('--name', type=str, default='experiment_name',
+        self.parser.add_argument('--name', type=str, default='vkitti-baseline',
                                  help='name of the experiment. It decides where to store samples and models')
         self.parser.add_argument('--checkpoints_dir', type=str, default='./checkpoints',
                                  help='models are save here')
@@ -19,16 +19,16 @@ class BaseOptions():
                                  help='which epoch to load')
         self.parser.add_argument('--gpu_ids', type=str, default='0',
                                  help='gpu ids: e.g. 0, 1, 2 use -1 for CPU')
-        self.parser.add_argument('--model', type=str, default='wsupervised',
+        self.parser.add_argument('--model', type=str, default='supervised',
                                  help='choose which model to use, [supervised] | [wsupervised]')
         # data pattern define
-        self.parser.add_argument('--img_source_file', type=str, default='/data/dataset/Image2Depth_SUN_NYU/trainA_SYN10.txt',
+        self.parser.add_argument('--img_source_file', type=str, default='data/vkitti_train.csv',
                                  help='training and testing dataset for source domain')
-        self.parser.add_argument('--img_target_file', type=str, default='/data/dataset/Image2Depth_SUN_NYU/trainA.txt',
-                                 help='training and testing dataser for target domain')
-        self.parser.add_argument('--lab_source_file', type=str, default='/data/dataset/Image2Depth_SUN_NYU/trainC_SYN10.txt',
+        self.parser.add_argument('--img_target_file', type=str, default='data/eigen_train.csv',
+                                 help='training and testing dataset for target domain')
+        self.parser.add_argument('--lab_source_file', type=str, default='data/vkitti_train.csv',
                                  help='training label for source domain')
-        self.parser.add_argument('--lab_target_file', type=str, default='/data/dataset/Image2Depth_SUN_NYU/trainC.txt',
+        self.parser.add_argument('--lab_target_file', type=str, default='data/eigen_train.csv',
                                  help='training label for target domain')
         self.parser.add_argument('--dataset_mode', type=str, default='paired',
                                  help='chooses how datasets are loaded. [paired| unpaired]')
@@ -44,7 +44,7 @@ class BaseOptions():
                                  help='if specified, crop the images for data augmentation')
         self.parser.add_argument('--batchSize', type=int, default=6,
                                  help='input batch size')
-        self.parser.add_argument('--nThreads', type=int, default=2,
+        self.parser.add_argument('--nThreads', type=int, default=0,
                                  help='# threads for loading data')
         self.parser.add_argument('--shuffle', action='store_true',
                                  help='if true, takes images randomly')
