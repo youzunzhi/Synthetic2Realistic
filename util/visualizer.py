@@ -118,7 +118,7 @@ class Visualizer():
             log_file.write('%s\n' % message)
 
     # save image to the disk
-    def save_images(self, visuals, image_path):
+    def save_images(self, visuals, i):
         # image_dir = webpage.get_image_dir()
         # short_path = ntpath.basename(image_path[0])
         # name = os.path.splitext(short_path)[0]
@@ -131,6 +131,6 @@ class Visualizer():
         if not os.path.exists(image_dir):
             os.mkdir(image_dir)
         for label, image_numpy in visuals.items():
-            image_name = '%s.png' % label
+            image_name = '%s.png' % str(i)
             save_path = os.path.join(image_dir, image_name)
             util.save_image(image_numpy, save_path)

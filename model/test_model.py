@@ -51,7 +51,7 @@ class TestModel(BaseModel):
             self.lab_t_g = self.net_img2task.forward(self.img_t)
 
     # save_results
-    def save_results(self, visualizer):
+    def save_results(self, visualizer, batch_i):
         # img_source_paths = self.input['img_source_paths']
         img_target_paths = self.input['img_target_paths']
 
@@ -69,5 +69,5 @@ class TestModel(BaseModel):
             # visuals = OrderedDict([('img_t', img_target), ('lab_t_g', lab_fake_target)])
             visuals = OrderedDict([('lab_t_g', lab_fake_target)])
             print('process image ......%s' % img_target_paths[0])
-            visualizer.save_images(visuals, img_target_paths)
+            visualizer.save_images(visuals, batch_i+i)
             img_target_paths.pop(0)
