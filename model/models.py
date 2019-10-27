@@ -9,7 +9,6 @@ def create_model(opt):
         model = TNetModel()
     elif opt.model == 'test':
         from .test_model import TestModel
-        print('TestModel')
         model = TestModel()
     else:
         raise ValueError("Model [%s] not recognized." % opt.model)

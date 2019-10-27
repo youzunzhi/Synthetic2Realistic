@@ -28,6 +28,7 @@ class TestModel(BaseModel):
                                              opt.activation, opt.task_model_type, opt.init_type, opt.drop_rate,
                                              False, opt.gpu_ids, opt.U_weight)
 
+        self.net_img2task = torch.nn.DataParallel(self.net_img2task)
         self.load_networks()
 
     def set_input(self, input):
