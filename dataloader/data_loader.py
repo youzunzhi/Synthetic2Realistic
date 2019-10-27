@@ -73,7 +73,7 @@ class CreateDataset(data.Dataset):
                     }
 
     def __len__(self):
-        return max(self.img_source_size, self.img_target_size)
+        return min(self.img_source_size, self.img_target_size)
 
     def name(self):
         return 'T^2Dataset'
