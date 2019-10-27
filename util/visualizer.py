@@ -8,20 +8,20 @@ from . import util
 class Visualizer():
     def __init__(self, opt):
         # self.opt = opt
-        self.display_id = opt.display_id
-        self.use_html = opt.isTrain and not opt.no_html
-        self.win_size = opt.display_winsize
-        self.name = opt.name
-        if self.display_id > 0:
-            import visdom
-            self.vis = visdom.Visdom(port = opt.display_port)
-            self.display_single_pane_ncols = opt.display_single_pane_ncols
-
-        if self.use_html:
-            self.web_dir = os.path.join(opt.checkpoints_dir, opt.name, 'web')
-            self.img_dir = os.path.join(self.web_dir, 'images')
-            print('create web directory %s...' % self.web_dir)
-            util.mkdirs([self.web_dir, self.img_dir])
+        # self.display_id = opt.display_id
+        # self.use_html = opt.isTrain and not opt.no_html
+        # self.win_size = opt.display_winsize
+        # self.name = opt.name
+        # if self.display_id > 0:
+        #     import visdom
+        #     self.vis = visdom.Visdom(port = opt.display_port)
+        #     self.display_single_pane_ncols = opt.display_single_pane_ncols
+        #
+        # if self.use_html:
+        #     self.web_dir = os.path.join(opt.checkpoints_dir, opt.name, 'web')
+        #     self.img_dir = os.path.join(self.web_dir, 'images')
+        #     print('create web directory %s...' % self.web_dir)
+        #     util.mkdirs([self.web_dir, self.img_dir])
         self.log_name = os.path.join(opt.checkpoints_dir, opt.name, 'loss_log.txt')
         with open(self.log_name, "a") as log_file:
             now = time.strftime("%c")
@@ -118,22 +118,19 @@ class Visualizer():
             log_file.write('%s\n' % message)
 
     # save image to the disk
-    def save_images(self, webpage, visuals, image_path):
-        image_dir = webpage.get_image_dir()
-        short_path = ntpath.basename(image_path[0])
-        name = os.path.splitext(short_path)[0]
+    def save_images(self, visuals, image_path):
+        # image_dir = webpage.get_image_dir()
+        # short_path = ntpath.basename(image_path[0])
+        # name = os.path.splitext(short_path)[0]
 
-        webpage.add_header(name)
+        # webpage.add_header(name)
         ims = []
         txts = []
         links = []
-
+        image_dir = 'results_eigen_test'
+        if not os.path.exists(image_dir):
+            os.mkdir(image_dir)
         for label, image_numpy in visuals.items():
-            image_name = '%s_%s.png' % (name, label)
+            image_name = '%s.png' % label
             save_path = os.path.join(image_dir, image_name)
             util.save_image(image_numpy, save_path)
-
-            ims.append(image_name)
-            txts.append(label)
-            links.append(image_name)
-        webpage.add_images(ims, txts, links, width=self.win_size)

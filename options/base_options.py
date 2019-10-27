@@ -24,11 +24,11 @@ class BaseOptions():
         # data pattern define
         self.parser.add_argument('--img_source_file', type=str, default='data/vkitti_train.csv',
                                  help='training and testing dataset for source domain')
-        self.parser.add_argument('--img_target_file', type=str, default='data/eigen_train.csv',
+        self.parser.add_argument('--img_target_file', type=str, default='data/eigen_test.csv',
                                  help='training and testing dataset for target domain')
         self.parser.add_argument('--lab_source_file', type=str, default='data/vkitti_train.csv',
                                  help='training label for source domain')
-        self.parser.add_argument('--lab_target_file', type=str, default='data/eigen_train.csv',
+        self.parser.add_argument('--lab_target_file', type=str, default='data/eigen_test.csv',
                                  help='training label for target domain')
         self.parser.add_argument('--dataset_mode', type=str, default='paired',
                                  help='chooses how datasets are loaded. [paired| unpaired]')

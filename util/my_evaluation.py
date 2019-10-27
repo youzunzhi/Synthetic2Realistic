@@ -1,5 +1,10 @@
 import argparse
 from .data_kitti import *
+import os
+from options.test_options import TestOptions
+from dataloader.data_loader import dataloader
+from model.models import create_model
+from util import html
 
 parser = argparse.ArgumentParser(description='Evaluation ont the dataset')
 parser.add_argument('--split', type=str, default='eigen', help='data split')
@@ -16,6 +21,14 @@ parser.add_argument('--garg_crop', action='store_true', help='if set, crops acco
 args = parser.parse_args()
 
 if __name__ == "__main__":
+    opt = TestOptions().parse()
+    opt.model = 'test'
+
+    dataset = dataloader(opt)
+    dataset_size = len(dataset) * opt.batchSize
+    print('testing images = %d ' % dataset_size)
+
+    model = create_model(opt)
 
     predicted_depths = load_depth(args.predicted_depth_path,args.split, args.normize_depth)
 

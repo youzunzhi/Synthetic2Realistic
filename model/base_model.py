@@ -60,10 +60,10 @@ class BaseModel():
                     net.cuda()
 
     # load models
-    def load_networks(self, which_epoch):
+    def load_networks(self):
         for name in self.model_names:
             if isinstance(name, str):
-                save_filename = '%s_net_%s.pth' % (which_epoch, name)
+                save_filename = 'model_on_github.pth'
                 save_path = os.path.join(self.save_dir, save_filename)
                 net = getattr(self, 'net_'+name)
                 net.load_state_dict(torch.load(save_path))
