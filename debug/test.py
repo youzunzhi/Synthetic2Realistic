@@ -73,7 +73,7 @@ def get_img_paths():
         paths = f.readlines()
 
     for path in paths:
-        path = path.strip()
+        path = path.strip().split(' ')[0]
         image_paths.append(path)
 
     return image_paths
