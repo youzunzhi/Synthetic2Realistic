@@ -5,6 +5,10 @@ from PIL import Image
 import torch, os
 import numpy as np
 import imageio
+import sys
+
+sys.path.append('../')
+
 from model.network import _UNetGenerator
 use_cuda = False
 
