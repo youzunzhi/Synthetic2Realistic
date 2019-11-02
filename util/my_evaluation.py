@@ -1,15 +1,10 @@
 import argparse
 from .data_kitti import *
-import os
-from options.test_options import TestOptions
-from dataloader.data_loader import dataloader
-from model.models import create_model
-from util import html
 
 parser = argparse.ArgumentParser(description='Evaluation ont the dataset')
 parser.add_argument('--split', type=str, default='eigen', help='data split')
-parser.add_argument('--predicted_depth_path', type=str, default='../dataset/KITTI31_predicted_lsgan/', help='path to estimated depth')
-parser.add_argument('--gt_path', type = str, default='/data/dataset/KITTI/',
+parser.add_argument('--predicted_depth_path', type=str, default='../data/eigen_test_pred.txt', help='path to estimated depth')
+parser.add_argument('--gt_path', type = str, default='../data/eigen_test.csv',
                     help = 'path to original kitti dataset /data/dataset/NYU_Test/testB')
 parser.add_argument('--file_path', type = str, default='../datasplit/', help = 'path to datasplit files')
 parser.add_argument('--save_path', type = str, default='/home/asus/lyndon/program/data/Image2Depth_31_KITTI/', help='path to save the train and test dataset')
@@ -21,37 +16,22 @@ parser.add_argument('--garg_crop', action='store_true', help='if set, crops acco
 args = parser.parse_args()
 
 if __name__ == "__main__":
-    opt = TestOptions().parse()
-    opt.model = 'test'
 
-    dataset = dataloader(opt)
-    dataset_size = len(dataset) * opt.batchSize
-    print('testing images = %d ' % dataset_size)
+    predicted_depths = load_depth(args.predicted_depth_path, args.split, args.normize_depth)
 
-    model = create_model(opt)
+    test_files = read_text_lines(args.file_path + 'eigen_test_files.txt')
+    gt_files, gt_calib, im_sizes, im_files, cams = read_file_data(test_files, args.gt_path)
 
-    predicted_depths = load_depth(args.predicted_depth_path,args.split, args.normize_depth)
+    num_samples = len(im_files)
+    ground_truths = []
 
-    if args.split == 'indoor':
+    for t_id in range(num_samples):
+        camera_id = cams[t_id]
+        depth = generate_depth_map(gt_calib[t_id], gt_files[t_id], im_sizes[t_id], camera_id, False, True)
+        ground_truths.append(depth.astype(np.float32))
 
-        ground_truths = load_depth(args.gt_path, args.split, 10)
-
-        num_samples = len(ground_truths)
-
-    elif args.split == 'eigen':
-        test_files = read_text_lines(args.file_path + 'eigen_test_files.txt')
-        gt_files, gt_calib, im_sizes, im_files, cams = read_file_data(test_files, args.gt_path)
-
-        num_samples = len(im_files)
-        ground_truths = []
-
-        for t_id in range(num_samples):
-            camera_id = cams[t_id]
-            depth = generate_depth_map(gt_calib[t_id], gt_files[t_id], im_sizes[t_id], camera_id, False, True)
-            ground_truths.append(depth.astype(np.float32))
-
-            depth = cv2.resize(predicted_depths[t_id],(im_sizes[t_id][1], im_sizes[t_id][0]),interpolation=cv2.INTER_LINEAR)
-            predicted_depths[t_id] = depth
+        depth = cv2.resize(predicted_depths[t_id],(im_sizes[t_id][1], im_sizes[t_id][0]),interpolation=cv2.INTER_LINEAR)
+        predicted_depths[t_id] = depth
 
     abs_rel = np.zeros(num_samples, np.float32)
     sq_rel = np.zeros(num_samples,np.float32)

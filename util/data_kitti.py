@@ -32,7 +32,7 @@ def compute_errors(ground_truth, predication):
 
 def load_depth(file_path, split, max_depth):
     depths = []
-    dataset, _ = make_dataset(file_path)
+    dataset, _ = make_dataset(file_path, True)
     for data in dataset:
         depth = Image.open(data)
         if split == 'eigen':
