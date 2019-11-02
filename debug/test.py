@@ -6,16 +6,14 @@ import torch, os
 import numpy as np
 import imageio
 import sys
-
 sys.path.append('../')
-
 from model.network import _UNetGenerator
 use_cuda = False
 
 
 def main():
     dataset = DataLoader(RGBDataset(), batch_size=16, shuffle=False, num_workers=0)
-    dataset_size = len(dataset) * 16
+    dataset_size = len(dataset.dataset)
     print ('testing images = %d ' % dataset_size)
     model = TestModel()
     for i, data in enumerate(dataset):
