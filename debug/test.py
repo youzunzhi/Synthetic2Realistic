@@ -115,7 +115,7 @@ class RGBDataset(Dataset):
         return img, img_name
 
     def __len__(self):
-        return self.img_paths
+        return len(self.img_paths)
 
 if __name__ == '__main__':
     main()
