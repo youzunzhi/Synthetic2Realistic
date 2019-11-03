@@ -53,6 +53,7 @@ class TestModel(object):
     def save_results(self):
         for depth_pred in self.depth_pred:
             depth_pred_np = tensor2im(depth_pred)
+            print(depth_pred_np.mean())
             pred_name = '%s.png' % str(self.pred_i)
             self.pred_i += 1
             save_path = os.path.join(self.save_dir, pred_name)
