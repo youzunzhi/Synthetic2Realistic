@@ -12,7 +12,7 @@ use_cuda = False
 
 
 def main():
-    dataset = DataLoader(RGBDataset(), batch_size=16, shuffle=False, num_workers=0)
+    dataset = DataLoader(RGBDataset(), batch_size=1, shuffle=False, num_workers=0)
     dataset_size = len(dataset.dataset)
     print ('testing images = %d ' % dataset_size)
     model = TestModel()
@@ -34,7 +34,7 @@ class TestModel(object):
         self.pred_i = 0
 
     def load_networks(self):
-        save_filename = '../model_on_github.pth'
+        save_filename = '/Users/youzunzhi/Desktop/depth_colorization/code/depth_colorization/depth_pred/runs/model_on_github.pth'
         self.net_img2task.load_state_dict(torch.load(save_filename))
 
     def set_input(self, input):
