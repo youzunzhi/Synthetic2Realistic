@@ -26,7 +26,7 @@ class BaseOptions():
                                  help='training and testing dataset for source domain')
         self.parser.add_argument('--img_target_file', type=str, default='datasplit/eigen_test_files.txt',
                                  help='training and testing dataset for target domain')
-        self.parser.add_argument('--lab_source_file', type=str, default='',
+        self.parser.add_argument('--lab_source_file', type=str, default='data/vkitti_train.csv',
                                  help='training label for source domain')
         self.parser.add_argument('--lab_target_file', type=str, default='datasplit/eigen_test_files.txt',
                                  help='training label for target domain')
