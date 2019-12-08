@@ -31,6 +31,7 @@ def make_dataset_txt(path_files, col):
         paths = f.readlines()
 
     for path in paths:
+        print(path)
         path = path.split(',')[col].strip()
         image_paths.append(path)
 
