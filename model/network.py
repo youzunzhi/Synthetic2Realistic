@@ -69,7 +69,7 @@ def init_weights(net, init_type='normal', gain=0.02):
             if hasattr(m, 'bias') and m.bias is not None:
                 init.constant_(m.bias.data, 0.0)
         elif classname.find('BatchNorm2d') != -1:
-            init.uniform_(m.weight.data, 1.0, gain)
+            init.normal_(m.weight.data, 0.0, gain)
             init.constant_(m.bias.data, 0.0)
 
     print('initialize network with %s' % init_type)
