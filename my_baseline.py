@@ -18,7 +18,7 @@ def main():
             print('batch:', batch_i, end=' ')
             model.set_input(batch)
             model.optimize_parameters()
-            model.save_weights(epoch)
+        model.save_weights(epoch)
 
 
 
@@ -181,6 +181,7 @@ if __name__ == '__main__':
     USE_CUDA = torch.cuda.is_available()
     import time
     OUTPUT_DIR = 'runs/' + 'TNet-[{}]'.format(time.strftime('%Y-%m-%d-%X', time.localtime(time.time())))
+    os.mkdir(OUTPUT_DIR)
     if USE_CUDA:
         os.environ["CUDA_VISIBLE_DEVICES"] = CUDA_ID
     main()
