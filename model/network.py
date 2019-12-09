@@ -92,7 +92,7 @@ def init_net(net, init_type='normal', gpu_ids=[]):
         assert(torch.cuda.is_available())
         # net = torch.nn.DataParallel(net, gpu_ids) # no parallel
         net.cuda()
-    # init_weights(net, init_type) ----no init (default kaiming, right?)
+    init_weights(net, init_type)
     return net
 
 
